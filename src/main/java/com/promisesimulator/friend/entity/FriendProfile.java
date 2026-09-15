@@ -48,7 +48,21 @@ public class FriendProfile extends BaseTimeEntity {
     @Column(length = 500)
     private String memo;
 
-    protected FriendProfile() {
+    public FriendProfile() {
         // JPA 기본 생성자
     }
+
+    public UUID getId() { return id; }
+    public MemberProfile getMemberProfile() { return memberProfile; }
+    public String getName() { return name; }
+    public String getCloseness() { return closeness; }
+    public String getMeetingFrequency() { return meetingFrequency; }
+    public String getConversationCompatibility() { return conversationCompatibility; }
+    public String getMemo() { return memo; }
+    public void setMemberProfile(MemberProfile memberProfile) { this.memberProfile = memberProfile; }
+    public void setName(String name) { this.name = name; }
+    public void setCloseness(String closeness) { this.closeness = closeness; }
+    public void setMeetingFrequency(String meetingFrequency) { this.meetingFrequency = meetingFrequency; }
+    public void setConversationCompatibility(String conversationCompatibility) { this.conversationCompatibility = conversationCompatibility; }
+    public void setMemo(String memo) { this.memo = memo; }
 }
