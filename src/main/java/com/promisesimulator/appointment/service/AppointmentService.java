@@ -43,7 +43,7 @@ public class AppointmentService {
     }
 
     public AppointmentResponse getAppointment(UUID memberProfileId, UUID appointmentId) {
-        throw new UnsupportedOperationException("TODO: 약속 조회 구현");
+        return toResponse(findOwnedAppointment(memberProfileId, appointmentId));
     }
 
     public AppointmentResponse updateAppointment(
@@ -54,6 +54,11 @@ public class AppointmentService {
     private FriendProfile findOwnedFriend(UUID memberProfileId, UUID friendProfileId) {
         return friendProfileRepository.findByIdAndMemberProfile_Id(friendProfileId, memberProfileId)
                 .orElseThrow(() -> new IllegalArgumentException("친구 프로필을 찾을 수 없습니다."));
+    }
+
+    private Appointment findOwnedAppointment(UUID memberProfileId, UUID appointmentId) {
+        return appointmentRepository.findByIdAndMemberProfile_Id(appointmentId, memberProfileId)
+                .orElseThrow(() -> new IllegalArgumentException("약속을 찾을 수 없습니다."));
     }
 
     private void applyRequest(Appointment appointment, AppointmentRequest request) {
