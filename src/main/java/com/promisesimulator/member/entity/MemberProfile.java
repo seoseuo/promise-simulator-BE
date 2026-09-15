@@ -1,6 +1,7 @@
 package com.promisesimulator.member.entity;
 
 import com.promisesimulator.global.entity.BaseTimeEntity;
+import com.promisesimulator.member.dto.MemberProfileRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -53,4 +54,33 @@ public class MemberProfile extends BaseTimeEntity {
     protected MemberProfile() {
         // JPA가 리플렉션으로 엔티티를 생성할 때 사용한다.
     }
+
+    public static MemberProfile create(String authSubject, MemberProfileRequest request, String preferences) {
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.authSubject = authSubject;
+        memberProfile.apply(request, preferences);
+        return memberProfile;
+    }
+
+    public void update(MemberProfileRequest request, String preferences) {
+        apply(request, preferences);
+    }
+
+    private void apply(MemberProfileRequest request, String preferences) {
+        this.name = request.getName();
+        this.gender = request.getGender();
+        this.ageRange = request.getAgeRange();
+        this.mbti = request.getMbti();
+        this.preferences = preferences;
+        this.memo = request.getMemo();
+    }
+
+    public UUID getId() { return id; }
+    public String getAuthSubject() { return authSubject; }
+    public String getName() { return name; }
+    public String getGender() { return gender; }
+    public String getAgeRange() { return ageRange; }
+    public String getMbti() { return mbti; }
+    public String getPreferences() { return preferences; }
+    public String getMemo() { return memo; }
 }
