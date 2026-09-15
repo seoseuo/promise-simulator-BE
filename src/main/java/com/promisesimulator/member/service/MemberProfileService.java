@@ -36,7 +36,9 @@ public class MemberProfileService {
     }
 
     public MemberProfileResponse getMyProfile(String authSubject) {
-        throw new UnsupportedOperationException("TODO: 내 프로필 조회 구현");
+        MemberProfile memberProfile = memberProfileRepository.findByAuthSubject(authSubject)
+                .orElseThrow(() -> new IllegalArgumentException("회원 프로필을 찾을 수 없습니다."));
+        return toResponse(memberProfile);
     }
 
     public MemberProfileResponse updateMyProfile(String authSubject, MemberProfileRequest request) {
