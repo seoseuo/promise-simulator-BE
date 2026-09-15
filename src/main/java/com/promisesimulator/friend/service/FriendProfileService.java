@@ -42,7 +42,8 @@ public class FriendProfileService {
     }
 
     public FriendProfileResponse getFriend(UUID memberProfileId, UUID friendProfileId) {
-        throw new UnsupportedOperationException("TODO: 친구 프로필 조회 구현");
+        FriendProfile friendProfile = findOwnedFriend(memberProfileId, friendProfileId);
+        return toResponse(friendProfile);
     }
 
     public FriendProfileResponse updateFriend(
@@ -66,5 +67,10 @@ public class FriendProfileService {
         friendProfile.setMeetingFrequency(request.getMeetingFrequency());
         friendProfile.setConversationCompatibility(request.getConversationCompatibility());
         friendProfile.setMemo(request.getMemo());
+    }
+
+    private FriendProfile findOwnedFriend(UUID memberProfileId, UUID friendProfileId) {
+        return friendProfileRepository.findByIdAndMemberProfile_Id(friendProfileId, memberProfileId)
+                .orElseThrow(() -> new IllegalArgumentException("친구 프로필을 찾을 수 없습니다."));
     }
 }
