@@ -41,8 +41,12 @@ public class MemberProfileService {
         return toResponse(memberProfile);
     }
 
+    @Transactional
     public MemberProfileResponse updateMyProfile(String authSubject, MemberProfileRequest request) {
-        throw new UnsupportedOperationException("TODO: 내 프로필 수정 구현");
+        MemberProfile memberProfile = memberProfileRepository.findByAuthSubject(authSubject)
+                .orElseThrow(() -> new IllegalArgumentException("회원 프로필을 찾을 수 없습니다."));
+        memberProfile.update(request, serializePreferences(request));
+        return toResponse(memberProfile);
     }
 
     private String serializePreferences(MemberProfileRequest request) {
