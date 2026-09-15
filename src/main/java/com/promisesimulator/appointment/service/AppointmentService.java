@@ -46,9 +46,14 @@ public class AppointmentService {
         return toResponse(findOwnedAppointment(memberProfileId, appointmentId));
     }
 
+    @Transactional
     public AppointmentResponse updateAppointment(
             UUID memberProfileId, UUID appointmentId, AppointmentRequest request) {
-        throw new UnsupportedOperationException("TODO: 약속 수정 구현");
+        Appointment appointment = findOwnedAppointment(memberProfileId, appointmentId);
+        FriendProfile friendProfile = findOwnedFriend(memberProfileId, request.getFriendProfileId());
+        appointment.setFriendProfile(friendProfile);
+        applyRequest(appointment, request);
+        return toResponse(appointment);
     }
 
     private FriendProfile findOwnedFriend(UUID memberProfileId, UUID friendProfileId) {
