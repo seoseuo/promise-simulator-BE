@@ -1,6 +1,7 @@
 package com.promisesimulator.appointment.entity;
 
 import com.promisesimulator.global.entity.BaseTimeEntity;
+import com.promisesimulator.friend.entity.FriendProfile;
 import com.promisesimulator.member.entity.MemberProfile;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +31,11 @@ public class Appointment extends BaseTimeEntity {
     @JoinColumn(name = "member_profile_id", nullable = false)
     private MemberProfile memberProfile;
 
+    // 약속을 함께할 친구 프로필이다.
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "friend_profile_id", nullable = false)
+    private FriendProfile friendProfile;
+
     // 약속이 열리는 날짜다.
     @Column(nullable = false)
     private LocalDate appointmentDate;
@@ -57,7 +63,27 @@ public class Appointment extends BaseTimeEntity {
     @Column(length = 1000)
     private String additionalRequest;
 
-    protected Appointment() {
+    public Appointment() {
         // JPA 기본 생성자
     }
+
+    public UUID getId() { return id; }
+    public MemberProfile getMemberProfile() { return memberProfile; }
+    public FriendProfile getFriendProfile() { return friendProfile; }
+    public LocalDate getAppointmentDate() { return appointmentDate; }
+    public LocalTime getStartTime() { return startTime; }
+    public LocalTime getEndTime() { return endTime; }
+    public String getLocation() { return location; }
+    public String getDesiredActivities() { return desiredActivities; }
+    public String getFixedSchedule() { return fixedSchedule; }
+    public String getAdditionalRequest() { return additionalRequest; }
+    public void setMemberProfile(MemberProfile memberProfile) { this.memberProfile = memberProfile; }
+    public void setFriendProfile(FriendProfile friendProfile) { this.friendProfile = friendProfile; }
+    public void setAppointmentDate(LocalDate appointmentDate) { this.appointmentDate = appointmentDate; }
+    public void setStartTime(LocalTime startTime) { this.startTime = startTime; }
+    public void setEndTime(LocalTime endTime) { this.endTime = endTime; }
+    public void setLocation(String location) { this.location = location; }
+    public void setDesiredActivities(String desiredActivities) { this.desiredActivities = desiredActivities; }
+    public void setFixedSchedule(String fixedSchedule) { this.fixedSchedule = fixedSchedule; }
+    public void setAdditionalRequest(String additionalRequest) { this.additionalRequest = additionalRequest; }
 }
