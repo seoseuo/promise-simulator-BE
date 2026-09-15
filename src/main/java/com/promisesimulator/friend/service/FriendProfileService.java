@@ -36,7 +36,9 @@ public class FriendProfileService {
     }
 
     public List<FriendProfileResponse> getFriends(UUID memberProfileId) {
-        throw new UnsupportedOperationException("TODO: 친구 목록 조회 구현");
+        return friendProfileRepository.findAllByMemberProfile_Id(memberProfileId).stream()
+                .map(this::toResponse)
+                .toList();
     }
 
     public FriendProfileResponse getFriend(UUID memberProfileId, UUID friendProfileId) {
