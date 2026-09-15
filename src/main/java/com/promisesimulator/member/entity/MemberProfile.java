@@ -1,7 +1,6 @@
 package com.promisesimulator.member.entity;
 
 import com.promisesimulator.global.entity.BaseTimeEntity;
-import com.promisesimulator.member.dto.MemberProfileRequest;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -51,28 +50,8 @@ public class MemberProfile extends BaseTimeEntity {
     @Column(length = 500)
     private String memo;
 
-    protected MemberProfile() {
+    public MemberProfile() {
         // JPA가 리플렉션으로 엔티티를 생성할 때 사용한다.
-    }
-
-    public static MemberProfile create(String authSubject, MemberProfileRequest request, String preferences) {
-        MemberProfile memberProfile = new MemberProfile();
-        memberProfile.authSubject = authSubject;
-        memberProfile.apply(request, preferences);
-        return memberProfile;
-    }
-
-    public void update(MemberProfileRequest request, String preferences) {
-        apply(request, preferences);
-    }
-
-    private void apply(MemberProfileRequest request, String preferences) {
-        this.name = request.getName();
-        this.gender = request.getGender();
-        this.ageRange = request.getAgeRange();
-        this.mbti = request.getMbti();
-        this.preferences = preferences;
-        this.memo = request.getMemo();
     }
 
     public UUID getId() { return id; }
@@ -83,4 +62,11 @@ public class MemberProfile extends BaseTimeEntity {
     public String getMbti() { return mbti; }
     public String getPreferences() { return preferences; }
     public String getMemo() { return memo; }
+    public void setAuthSubject(String authSubject) { this.authSubject = authSubject; }
+    public void setName(String name) { this.name = name; }
+    public void setGender(String gender) { this.gender = gender; }
+    public void setAgeRange(String ageRange) { this.ageRange = ageRange; }
+    public void setMbti(String mbti) { this.mbti = mbti; }
+    public void setPreferences(String preferences) { this.preferences = preferences; }
+    public void setMemo(String memo) { this.memo = memo; }
 }

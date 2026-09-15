@@ -31,7 +31,9 @@ public class MemberProfileService {
             throw new IllegalStateException("이미 회원 프로필이 존재합니다.");
         }
 
-        MemberProfile memberProfile = MemberProfile.create(authSubject, request, serializePreferences(request));
+        MemberProfile memberProfile = new MemberProfile();
+        memberProfile.setAuthSubject(authSubject);
+        applyRequest(memberProfile, request);
         return toResponse(memberProfileRepository.save(memberProfile));
     }
 
@@ -45,7 +47,7 @@ public class MemberProfileService {
     public MemberProfileResponse updateMyProfile(String authSubject, MemberProfileRequest request) {
         MemberProfile memberProfile = memberProfileRepository.findByAuthSubject(authSubject)
                 .orElseThrow(() -> new IllegalArgumentException("회원 프로필을 찾을 수 없습니다."));
-        memberProfile.update(request, serializePreferences(request));
+        applyRequest(memberProfile, request);
         return toResponse(memberProfile);
     }
 
@@ -62,6 +64,15 @@ public class MemberProfileService {
         } catch (JacksonException exception) {
             throw new IllegalStateException("회원 취향 정보를 저장할 수 없습니다.", exception);
         }
+    }
+
+    private void applyRequest(MemberProfile memberProfile, MemberProfileRequest request) {
+        memberProfile.setName(request.getName());
+        memberProfile.setGender(request.getGender());
+        memberProfile.setAgeRange(request.getAgeRange());
+        memberProfile.setMbti(request.getMbti());
+        memberProfile.setPreferences(serializePreferences(request));
+        memberProfile.setMemo(request.getMemo());
     }
 
     private MemberProfileResponse toResponse(MemberProfile memberProfile) {
