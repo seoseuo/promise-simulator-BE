@@ -46,9 +46,12 @@ public class FriendProfileService {
         return toResponse(friendProfile);
     }
 
+    @Transactional
     public FriendProfileResponse updateFriend(
             UUID memberProfileId, UUID friendProfileId, FriendProfileRequest request) {
-        throw new UnsupportedOperationException("TODO: 친구 프로필 수정 구현");
+        FriendProfile friendProfile = findOwnedFriend(memberProfileId, friendProfileId);
+        applyRequest(friendProfile, request);
+        return toResponse(friendProfile);
     }
 
     public void deleteFriend(UUID memberProfileId, UUID friendProfileId) {
